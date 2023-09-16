@@ -11,6 +11,25 @@ import { MessageService } from '../services/message.service';
 })
 export class HomePage {
 
+  isLoading: boolean = false;
+  funcionarios: any;
+
+
+  getFuncionarios(){
+    this.isLoading = true;
+    fetch('http://localhost/empresa/funcionario/listar_funcionario.php')
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
+  }
+
  
 
   constructor(

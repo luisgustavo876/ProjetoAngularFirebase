@@ -1,60 +1,76 @@
+<!-- header -->
 <ion-header>
   <ion-toolbar>
-    <ion-segment value="all">
+    
+  <ion-segment  value="all">
       <ion-segment-button value="all">
-        <ion-label>All</ion-label>
+          <ion-label>Funcionarios</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="favorites">
-        <ion-label>Favorites</ion-label>
+      
+      <ion-segment-button  value="Inserir" >
+          <ion-label>Inserir</ion-label>
       </ion-segment-button>
-    </ion-segment>
+  </ion-segment>
+
   </ion-toolbar>
 </ion-header>
 
+<!-- conteudo -->
+
 <ion-content [fullscreen]="true">
 
-  <ion-row>
-    <ion-col size="4">
-      <ion-searchbar animated="true" placeholder="Animated" color="light" placeholder="danger" ></ion-searchbar>
-    </ion-col>
-  </ion-row>
-  
-  
-  
+  <!-- lista -->
 <ion-row class="ion-justify-content-center">
   <ion-col size="10">
-    <ion-list [inset]="true">
+    <ion-list [inset]="false">
+
       <ion-item>
-        <ion-label></ion-label>
+        <ion-label>
+
+        </ion-label>
+
+         <!-- icones -->
         <ion-col size="1">
-          <ion-icon name="create-outline" size="large" color="ligth" ></ion-icon>
+          <ion-button click="remover(funcionario.id)" size="large" color="none">
+            <ion-icon name="create-outline" size="large" color="primary" ></ion-icon>
+          </ion-button>
         </ion-col>
         <ion-col size="1">
-          <ion-icon name="trash-outline" size="large" color="danger" ></ion-icon>
+          <ion-button size="large" color="#8465A8">
+            <ion-icon name="trash-outline" size="large" color="danger" ></ion-icon>
+          </ion-button>
         </ion-col>
         
       </ion-item>
     </ion-list>
+
   </ion-col>
 </ion-row>
 
-    
+</ion-content>
 
+<!-- footer -->
 
+<ion-footer  collapse="fade" >
 
+  <ion-row>
+    <ion-toolbar>
+      <ion-title>  <ion-text color="tertiary"><i>©</i></ion-text> Desenvolvido por luís Gustavo FG</ion-title>
+    </ion-toolbar>
+  </ion-row>
+  
+</ion-footer>
 
+<!-- *ngFor="let funcionario of funcionarios" -->
 
+<!-- searchbar teste -->
 
-
-
-
-
-
-
-
-
-
-
+  <!-- <ion-row>
+    <ion-col size="4">
+      <ion-searchbar animated="true" placeholder="Animated" color="light"  ></ion-searchbar>
+    </ion-col>
+  </ion-row> -->
+  
   <!-- <ion-row>
     <ion-col size="12" class="ion-text-center">
       <ion-button (click)="pegarDados()">Recuperar dados</ion-button>
@@ -65,5 +81,3 @@
       
     </ion-col>
   </ion-row> -->
-
-</ion-content>

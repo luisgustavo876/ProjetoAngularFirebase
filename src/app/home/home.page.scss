@@ -1,4 +1,24 @@
-ion-segment {
-    --background: #252425ae;
+ ion-segment-button {
+    --indicator-box-shadow: transparent !important;
+    --background:white;
+    --color:#696bae;
+    --background-checked: linear-gradient(to right, #D4CAF6 , #cfc3f5)!important;
+    --color-checked: rgb(255, 255, 255);
+    padding: 2px;
+    margin: 1px;
   }
-  
+
+  ion-list{
+    --background: #252425ae;
+  } 
+
+
+  ion-footer, ion-toolbar {
+    // --background: linear-gradient(to right, #D4CAF6 , #cfc3f5)!important;
+    ion-title{
+        text-align: center;
+        h3{
+          color: #696bae;
+        }
+    }
+}

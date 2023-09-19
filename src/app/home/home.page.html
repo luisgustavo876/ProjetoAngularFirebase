@@ -2,7 +2,7 @@
 <ion-header>
   <ion-toolbar>
     
-  <ion-segment  value="all">
+  <ion-segment  value="all" (ionChange)="trocar($event)">
       <ion-segment-button value="all">
           <ion-label>Funcionarios</ion-label>
       </ion-segment-button>
@@ -10,6 +10,10 @@
       <ion-segment-button  value="Inserir" >
           <ion-label>Inserir</ion-label>
       </ion-segment-button>
+
+      <ion-segment-button  value="Selecionar" >
+        <ion-label>Selecionar</ion-label>
+    </ion-segment-button>
   </ion-segment>
 
   </ion-toolbar>
@@ -19,33 +23,69 @@
 
 <ion-content [fullscreen]="true">
 
-  <!-- lista -->
-<ion-row class="ion-justify-content-center">
+  <!-- lista funcionario -->
+<ion-row class="ion-justify-content-center" *ngIf="this.guia=='all'">
   <ion-col size="10">
-    <ion-list [inset]="false">
+    <ion-list [inset]="true">
 
+      <ng-container *ngFor="let funcionario of this.funcionarios">
       <ion-item>
-        <ion-label>
-
-        </ion-label>
+          <ion-label><ion-text color="tertiary"><i>Nome:</i></ion-text> {{ funcionario.Nome }} </ion-label>
+          <ion-label><ion-text color="tertiary"><i>Cargo:</i></ion-text> {{ funcionario.Cargo }} </ion-label>
+          <ion-label><ion-text color="tertiary"><i>Cidade:</i></ion-text> {{ funcionario.Cidade }} </ion-label>
+          <ion-label><ion-text color="tertiary"><i>Telefone:</i></ion-text> {{ funcionario.Fone }} </ion-label>
 
          <!-- icones -->
         <ion-col size="1">
-          <ion-button click="remover(funcionario.id)" size="large" color="none">
+          <ion-button size="large" color="none" (click)="setOpen( funcionario )">
             <ion-icon name="create-outline" size="large" color="primary" ></ion-icon>
           </ion-button>
         </ion-col>
+
         <ion-col size="1">
-          <ion-button size="large" color="#8465A8">
+          <ion-button size="large" color="#8465A8"  id="present-alert">
             <ion-icon name="trash-outline" size="large" color="danger" ></ion-icon>
           </ion-button>
         </ion-col>
         
       </ion-item>
+    </ng-container>
     </ion-list>
 
   </ion-col>
 </ion-row>
+
+  <!-- insert funcionario -->
+  <ion-row class="ion-justify-content-center" *ngIf="this.guia=='Inserir'">
+    <ion-col size="10">
+        Inserir
+    </ion-col>
+  </ion-row>
+
+<!-- modal -->
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    <ion-content class="ion-padding">
+        {{ this.funcionario.Nome }}
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- alert -->
+<ion-alert
+
+  trigger="present-alert"
+  header="
+  deseja remover ?"
+  [buttons]="alertButtons"
+  (didDismiss)="setResult($event)"
+  backdrop-dismiss = false
+></ion-alert>
 
 </ion-content>
 

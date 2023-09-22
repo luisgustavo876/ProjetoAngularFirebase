@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgModule, ViewChild } from '@angular/core';
 import { AuthenticateService } from '../services/auth.service';
 import { CrudService } from '../services/crud.service';
 import { Storage, getDownloadURL, ref, uploadBytesResumable } from '@angular/fire/storage';
@@ -9,26 +9,38 @@ import { NavController, ModalController } from '@ionic/angular';
 import { create } from 'domain';
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
 
-  funcionario:any;
-  guia:any = 'all'
+// variaveis /////////////////////////////////////////////////////////////////////////////////////
+  
+  searchTerm:any;
+  guia:any = 'all';
+  isLoading: boolean = false;
+  funcionarios: any;
+  codigo:any;
+  
+
+// constructor ////////////////////////////////////////////////////////////////////////////////////
 
   constructor(
-    public modalCtrl: ModalController 
-    
+    public modalCtrl: ModalController  
 ) 
   { 
     this.listarfuncionario()
+    this.Inserirfuncionario()
 }
 
-// MODAL ///////////////////////////////////////////////////////////////////////////////
+// MODAL //////////////////////////////////////////////////////////////////////////////////////////
 
+funcionario:any;
 isModalOpen = false;
 
   setOpen(funcionario: any) {
@@ -40,10 +52,11 @@ isModalOpen = false;
     this.isModalOpen = false;
   }
 
-// variaveis ///////////////////////////////////////////////////////////////////////////////
 
-  isLoading: boolean = false;
-  funcionarios: any;
+
+// Funçoes ////////////////////////////////////////////////////////////////////////////////////////  
+
+
 
   listarfuncionario(){
     this.isLoading = true;
@@ -63,19 +76,23 @@ isModalOpen = false;
   }
 
 
-  removerfuncionario(){
+  setCodFun(codigo:any) {
+    console.log(this.codigo)
+    this.codigo = codigo;
+  }
+  removerfuncionario(codigo:any){
     this.isLoading = true;
-    fetch('http://localhost/api/funcionarios/remover_funcionario.php',
+    fetch('http://localhost/empresa/funcionario/remover_funcionario.php',
 			{
 			  method: 'POST',
 			  headers: {
 			    'Content-Type': 'application/json',
 			  },
-			  body: JSON.stringify({ CodFun: this.funcionarios.Nome.Cargo.Cidade.Fone, Acao: 'remover'})
-			}
+			  body: JSON.stringify({CodFun: codigo})
+			}//
 		)
     .then(response => response.json())
-    .then(response => {
+    .then(response => { 
       console.log(response);
     })
     .catch(erro => {
@@ -86,13 +103,57 @@ isModalOpen = false;
     })
   }
 
+  atualizarFuncionario(){
+    this.isLoading = true;
+    fetch('http://localhost/empresa/funcionario/atualizar_funcionario.php',
+			{
+			  method: 'POST',
+			  headers: {
+			    'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify({ CodFun: this.funcionarios, Acao: 'atualizar'})
+			}
+		)
+    .then(response => response.json())
+    .then(response => { 
+      console.log(response);
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
+  }
+
+  Inserirfuncionario(){
+    this.isLoading = true;
+    fetch('http://localhost/empresa/funcionario/inserir_funcionario.php')
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      this.funcionarios = response.funcionarios;
+      // ['Nome']['cargo']['cidade']['fone']
+    })
+    .catch(erro => {
+      console.log(erro);
+    })
+    .finally(()=>{
+      this.isLoading = false;
+    })
+  }
+
+  
+
+// ion-segmente evento de troca ///////////////////////////////////////////////////////////////////  
+
   trocar(event:any){
     console.log(event.detail.value)
     this.guia=event.detail.value
   }
 
+// alert remover //////////////////////////////////////////////////////////////////////////////////
 
-  // alert remover
   public alertButtons = [
     {
       text: 'Cancel',
@@ -108,7 +169,7 @@ isModalOpen = false;
       cssClass: 'alert-button-confirm',
       handler: () => {
         console.log('Alert confirmed');
-        this.removerfuncionario()
+        this.removerfuncionario(this.codigo)
       },
     },
   ];
@@ -116,5 +177,4 @@ isModalOpen = false;
   setResult(ev:any) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
-
 }

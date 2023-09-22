@@ -1,7 +1,6 @@
-<!-- header -->
 <ion-header>
   <ion-toolbar>
-    
+
   <ion-segment  value="all" (ionChange)="trocar($event)">
       <ion-segment-button value="all">
           <ion-label>Funcionarios</ion-label>
@@ -10,32 +9,57 @@
       <ion-segment-button  value="Inserir" >
           <ion-label>Inserir</ion-label>
       </ion-segment-button>
-
-      <ion-segment-button  value="Selecionar" >
-        <ion-label>Selecionar</ion-label>
-    </ion-segment-button>
   </ion-segment>
 
   </ion-toolbar>
 </ion-header>
 
-<!-- conteudo -->
+<!-- conteudo //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <ion-content [fullscreen]="true">
 
-  <!-- lista funcionario -->
+<!-- Pagina funcionarios //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
 <ion-row class="ion-justify-content-center" *ngIf="this.guia=='all'">
   <ion-col size="10">
+    
+    <ion-row>
+      <ion-col>
+        <ion-searchbar
+        placeholder="selectResult"
+        {(ngModel)}="searchTerm"
+        showCancelButton="focus"animated
+        ></ion-searchbar>
+      </ion-col>
+    </ion-row>
+
     <ion-list [inset]="true">
-
-      <ng-container *ngFor="let funcionario of this.funcionarios">
+      <ng-container *ngFor="let funcionario of this.funcionarios | filter:searchTerm" >
       <ion-item>
-          <ion-label><ion-text color="tertiary"><i>Nome:</i></ion-text> {{ funcionario.Nome }} </ion-label>
-          <ion-label><ion-text color="tertiary"><i>Cargo:</i></ion-text> {{ funcionario.Cargo }} </ion-label>
-          <ion-label><ion-text color="tertiary"><i>Cidade:</i></ion-text> {{ funcionario.Cidade }} </ion-label>
-          <ion-label><ion-text color="tertiary"><i>Telefone:</i></ion-text> {{ funcionario.Fone }} </ion-label>
 
-         <!-- icones -->
+        <ion-col size="1">
+          <ion-label class="id"><ion-text><i>Id:</i></ion-text> {{ funcionario.CodFun }} </ion-label>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-label> <ion-text><i>Nome:</i></ion-text> {{ funcionario.Nome }} </ion-label>
+        </ion-col>
+
+        <ion-col size="3">
+          <ion-label><ion-text><i>Cargo:</i></ion-text> {{ funcionario.Cargo }} </ion-label>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-label><ion-text><i>Cidade:</i></ion-text> {{ funcionario.Cidade }} </ion-label>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-label><ion-text><i>Telefone:</i></ion-text> {{ funcionario.Fone }} </ion-label>
+        </ion-col>
+          
+         <!-- Botao & icones -->
         <ion-col size="1">
           <ion-button size="large" color="none" (click)="setOpen( funcionario )">
             <ion-icon name="create-outline" size="large" color="primary" ></ion-icon>
@@ -43,53 +67,195 @@
         </ion-col>
 
         <ion-col size="1">
-          <ion-button size="large" color="#8465A8"  id="present-alert">
+          <ion-button size="large" color="#8465A8"  id="{{funcionario.CodFun}}" (click)="setCodFun(funcionario)">
             <ion-icon name="trash-outline" size="large" color="danger" ></ion-icon>
           </ion-button>
+   <!-- alert ////////////////////////////////////////////////////////////////////////////////////////////-->
+        <ion-alert
+        trigger="{{funcionario.CodFun}}"
+        header="
+        deseja remover ?"
+        [buttons]="alertButtons"
+        (didDismiss)="setResult($event)"
+        backdrop-dismiss = false
+        ></ion-alert>
         </ion-col>
         
       </ion-item>
     </ng-container>
     </ion-list>
-
   </ion-col>
 </ion-row>
 
-  <!-- insert funcionario -->
-  <ion-row class="ion-justify-content-center" *ngIf="this.guia=='Inserir'">
-    <ion-col size="10">
-        Inserir
+  <!-- Pagina Inserir funcionario //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <ion-row class="ion-justify-content-center " *ngIf="this.guia=='Inserir'">
+    <ion-col size="9">
+      <form class="inserir-form">
+
+          <div class="header">
+            <h3>Inserir Funcionarios</h3>
+          </div>
+
+            <ion-row>
+              <ion-col size="6">
+                <ion-item  class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Nome" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item  class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Sobrenome" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+            <ion-row>
+              <ion-col size="6">
+                <ion-item  class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Telefone" labelPlacement="floating" placeholder="" type="tel" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item  class="item-has-focus ion-touched"> 
+                  <ion-input class="custom-input" label="Data de Nascimento" labelPlacement="floating" placeholder="" type="date" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+     <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+            <ion-row>
+              <ion-col size="3">
+                <ion-item class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Cep" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Endereço" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="3">
+                <ion-item class="item-has-focus ion-touched">
+                  <ion-input  class="custom-input" label="País" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+      <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+            <ion-row>
+              <ion-col size="6">
+                <ion-item class="item-has-focus ion-touched">
+                  <ion-input class="custom-input" label="Cargo " labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item class="item-has-focus ion-touched" >
+                  <ion-input class="custom-input" label="Salario" type="number" labelPlacement="floating" placeholder="" [clearInput]="true"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-button class="botao_inserir"  slot="end" type="submit"  >Adicionar funcionario</ion-button>
+
+          </form>
     </ion-col>
   </ion-row>
 
-<!-- modal -->
+<!-- modal ////////////////////////////////////////////////////////////////////////////////////////////-->
+
 <ion-modal [isOpen]="isModalOpen">
   <ng-template>
+
       <ion-toolbar>
         <ion-buttons slot="end">
           <ion-button (click)="closeModal()">Close</ion-button>
         </ion-buttons>
       </ion-toolbar>
+
     <ion-content class="ion-padding">
-        {{ this.funcionario.Nome }}
+      <ion-row>
+        <ion-col>
+          <form class="modal-form" action="">
+
+            <ion-row>
+              <ion-col>
+                <div class="header-modal">
+                  <h3>Editar Funcionarios </h3>
+                </div>
+              </ion-col>
+              <ion-col>
+                <h3>id: {{ funcionario.CodFun }}</h3>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="6">
+                <ion-item class="modal-item item-has-focus ion-touched">
+                  <label for="Nome" labelPlacement="floating">
+                    Nome:
+                    <ion-input class="custom-input-modal"  placeholder="{{ this.funcionario.Nome }}" [clearInput]="true"></ion-input>
+                  </label>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item class="modal-item item-has-focus ion-touched">
+                  <label for="Nome" labelPlacement="floating">
+                    Cidade:
+                    <ion-input class="custom-input-modal"  placeholder="{{ this.funcionario.Cidade }}" [clearInput]="true"></ion-input>
+                  </label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="12">
+                <ion-item class="modal-item item-has-focus ion-touched">
+                  <label for="Nome" labelPlacement="floating">
+                    Cargo:
+                    <ion-input class="custom-input-modal"  placeholder="{{ this.funcionario.Cargo }}" [clearInput]="true"></ion-input>
+                  </label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+              <ion-row>
+                <ion-col size="6">
+                  <ion-item class="modal-item item-has-focus ion-touched">
+                    <label for="Nome" labelPlacement="floating">
+                      Telefone:
+                      <ion-input class="custom-input-modal"  placeholder="{{ this.funcionario.Fone }}" [clearInput]="true"></ion-input>
+                    </label>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="6">
+                  <ion-button class="botao_atualizar-modal"  type="submit" >Atualizar funcionario</ion-button>
+                </ion-col>
+              </ion-row>
+
+          </form>
+        </ion-col>
+      </ion-row>
     </ion-content>
   </ng-template>
 </ion-modal>
 
-<!-- alert -->
-<ion-alert
 
-  trigger="present-alert"
-  header="
-  deseja remover ?"
-  [buttons]="alertButtons"
-  (didDismiss)="setResult($event)"
-  backdrop-dismiss = false
-></ion-alert>
 
 </ion-content>
 
-<!-- footer -->
+<!-- footer ////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <ion-footer  collapse="fade" >
 
@@ -101,23 +267,45 @@
   
 </ion-footer>
 
-<!-- *ngFor="let funcionario of funcionarios" -->
+
 
 <!-- searchbar teste -->
 
-  <!-- <ion-row>
+   <!-- <ion-row>
     <ion-col size="4">
       <ion-searchbar animated="true" placeholder="Animated" color="light"  ></ion-searchbar>
     </ion-col>
-  </ion-row> -->
+  </ion-row>  -->
+
+
+  <!-- <ion-row class="ion-justify-content-center" *ngIf="this.guia=='all'">
+    <ion-col size="10">
   
-  <!-- <ion-row>
-    <ion-col size="12" class="ion-text-center">
-      <ion-button (click)="pegarDados()">Recuperar dados</ion-button>
-      <ng-container *ngIf="this.isLoading">
-        <ion-spinner></ion-spinner>
-      </ng-container>
-      <ion-label>{{ this.nome_usuario }}</ion-label>
+      <ion-row>
+        <ion-col size="1">
+          <ion-label class="id"><ion-text><i>Id:</i></ion-text> </ion-label>
+        </ion-col>
       
+        <ion-col size="2">
+          <ion-label><ion-text><i>Nome:</i></ion-text>  </ion-label>
+        </ion-col>
+      
+        <ion-col size="3">
+          <ion-label><ion-text><i>Cargo:</i></ion-text> </ion-label>
+        </ion-col>
+      
+        <ion-col size="2">
+          <ion-label><ion-text><i>Cidade:</i></ion-text> </ion-label>
+        </ion-col>
+      
+        <ion-col size="2">
+          <ion-label><ion-text><i>Telefone:</i></ion-text>  </ion-label>
+        </ion-col>
+    
+        <ion-col offset="2"></ion-col>
+        
+      </ion-row>
+    
     </ion-col>
-  </ion-row> -->
+    </ion-row> -->
+  

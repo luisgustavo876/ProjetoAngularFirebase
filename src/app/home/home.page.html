@@ -24,19 +24,38 @@
 
 <ion-row class="ion-justify-content-center" *ngIf="this.guia=='all'">
   <ion-col size="10">
-    
-    <ion-row>
-      <ion-col>
-        <ion-searchbar
-        placeholder="selectResult"
-        {(ngModel)}="searchTerm"
-        showCancelButton="focus"animated
-        ></ion-searchbar>
-      </ion-col>
-    </ion-row>
 
+    <ion-row class="ion-align-items-center">
+      <ion-col size="6">
+        <ion-searchbar 
+        showCancelButton="focus" 
+        [(ngModel)]="searchTerm"
+        class="search-bar"
+        style="--min-width: 10%; width: var(--min-width);"
+        (ionFocus)="expandSearchBar()"
+        (ionBlur)="resetSearchBar()">
+        </ion-searchbar>
+      </ion-col>
+
+          <ion-col>
+            <ion-checkbox>Nome</ion-checkbox>
+          </ion-col>
+
+          <ion-col>
+            <ion-checkbox>Cargo</ion-checkbox>
+          </ion-col>
+
+          <ion-col>
+            <ion-checkbox>Cidade</ion-checkbox>
+          </ion-col>
+
+          <ion-col>
+            <ion-checkbox>Telefone</ion-checkbox>
+          </ion-col>
+    </ion-row>
+    
     <ion-list [inset]="true">
-      <ng-container *ngFor="let funcionario of this.funcionarios | filter:searchTerm" >
+      <ng-container *ngFor="let funcionario of this.funcionarios">
       <ion-item>
 
         <ion-col size="1">
@@ -71,14 +90,14 @@
             <ion-icon name="trash-outline" size="large" color="danger" ></ion-icon>
           </ion-button>
    <!-- alert ////////////////////////////////////////////////////////////////////////////////////////////-->
-        <ion-alert
-        trigger="{{funcionario.CodFun}}"
-        header="
-        deseja remover ?"
-        [buttons]="alertButtons"
-        (didDismiss)="setResult($event)"
-        backdrop-dismiss = false
-        ></ion-alert>
+          <ion-alert
+          trigger="{{funcionario.CodFun}}"
+          header="
+          deseja remover ?"
+          [buttons]="alertButtons"
+          (didDismiss)="setResult($event)"
+          backdrop-dismiss = false
+          ></ion-alert>
         </ion-col>
         
       </ion-item>

@@ -20,8 +20,9 @@ import { create } from 'domain';
 export class HomePage {
 
 // variaveis /////////////////////////////////////////////////////////////////////////////////////
-  
-  searchTerm:any;
+
+  funcionario:any;
+  searchTerm!:string;
   guia:any = 'all';
   isLoading: boolean = false;
   funcionarios: any;
@@ -38,9 +39,10 @@ export class HomePage {
     this.Inserirfuncionario()
 }
 
+
 // MODAL //////////////////////////////////////////////////////////////////////////////////////////
 
-funcionario:any;
+
 isModalOpen = false;
 
   setOpen(funcionario: any) {
@@ -56,7 +58,17 @@ isModalOpen = false;
 
 // Funçoes ////////////////////////////////////////////////////////////////////////////////////////  
 
+expandSearchBar() {
+  // Define a largura da barra de pesquisa quando ela é clicada.
+  const searchBar = document.querySelector('.search-bar') as HTMLElement;
+  searchBar.style.width = '100%';
+}
 
+resetSearchBar() {
+  // Redefine a largura da barra de pesquisa quando ela perde o foco.
+  const searchBar = document.querySelector('.search-bar') as HTMLElement;
+  searchBar.style.width = '30%';
+}
 
   listarfuncionario(){
     this.isLoading = true;

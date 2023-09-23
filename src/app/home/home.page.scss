@@ -6,7 +6,7 @@ ion-segment-button {
   --indicator-box-shadow: transparent !important;
   --background:white;
   --color:#696bae;
-  --background-checked: linear-gradient(to right, #D4CAF6 , #cfc3f5)!important;
+  --background-checked: linear-gradient(to right, #D4CAF6 , #cfc3f5) !important;
   --color-checked: rgb(255, 255, 255);
   padding: 2px;
   margin: 1px;
@@ -45,8 +45,8 @@ padding: 20px;
 border-radius: 20px;
 margin:  0 0 0 10px;
 height: 500px;
-align-items: center;
-justify-content: center;
+align-items: center !important;
+justify-content: center !important;
 
 }
 .header{
@@ -140,3 +140,33 @@ margin-top: 10px;
   width: min-content;
 }
 
+/* Scoped components require higher specificity to customize */
+ion-searchbar.search-bar {
+  --background: linear-gradient(to left, #D4CAF6 , #cfc3f5) !important;;
+  --color: #fff;
+  --placeholder-color: #fff;
+  --icon-color: #fff;
+  --clear-button-color: #fff;
+
+  --border-radius: 4px;
+  --searchbar-input-width: 20%;
+  transition: width 0.6s ease-in-out;
+  --placeholder: hidden;
+}
+ion-searchbar.search-bar:focus {
+  --searchbar-input-width: 100%;
+}
+
+
+ion-searchbar.md.search-bar {
+  --cancel-button-color: #fff;
+}
+ion-checkbox {
+  --size: 24px;
+  --checkbox-background-checked: #cfc3f5;
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 1px solid #cfc3f5;
+}

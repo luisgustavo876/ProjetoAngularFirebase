@@ -33,10 +33,8 @@ export class HomePage {
 
   constructor(
     public modalCtrl: ModalController  
-) 
-  { 
+) { 
     this.listarfuncionario()
-    this.Inserirfuncionario()
 }
 
 
